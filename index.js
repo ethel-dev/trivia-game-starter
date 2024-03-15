@@ -134,11 +134,24 @@ function shuffle(array) {
     return array;
 }
 
+async function fetchNewQuestions() {
+    let request = await fetch("https://opentdb.com/api.php?amount=10&category=")
+    let body = await request.json();
+
+    let questions = shuffle(body["results"]);
+    window.questions = questions;
+}
+
 async function displayNewQuestion() {
     buttons = []
     document.getElementById("button-container").innerHTML = ""
 
     const questionCount = window.questions.length;
+
+    if (window.questions.length == 0) {
+        await fetchNewQuestions();
+    }
+
     let questionNumber = 0;
 
     let randomQuestion = window.questions.pop();
@@ -162,6 +175,7 @@ async function displayNewQuestion() {
 
             if (e.target.innerText === window.correctAnswer) {
                 alert("Correct!")
+                window.score++;
             } else {
                 alert(`Incorrect! Correct answer was ${window.correctAnswer}`)
             }
@@ -176,12 +190,9 @@ async function displayNewQuestion() {
 
 async function main() {
     window.controller = new AbortController();
+    window.score = 0;
 
-    let request = await fetch("https://opentdb.com/api.php?amount=10&type=multiple&category=")
-    let body = await request.json();
-
-    let questions = shuffle(body["results"]);
-    window.questions = questions;
+    await fetchNewQuestions();
     
     displayNewQuestion();
     /*

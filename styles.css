@@ -12,7 +12,7 @@ body {
     justify-content: center;
     height: 100vh;
     text-align: center;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 #trivia-content {
@@ -26,7 +26,6 @@ body {
     font-weight: bold;
     margin-left: 50px;
     margin-right: 50px;
-    background-color: rgb(105, 105, 105);
 }
 
 #question-category {
@@ -45,21 +44,27 @@ body {
 #button-container > button {
     font-size: 28px;
     margin: 24px;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, border 0.5s ease-in-out;
-    background-color: hotpink;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out, border 0.5s ease-in-out;
+    background-color: rgba(255, 105, 180, 0.197);
     color: white;
     padding: 60px;
-    opacity: 0.1;
-
     border: 10px;
     border-radius: 50%;
-    border-color: yellow;
+    border-color: rgba(255, 255, 0, 0.312);
     border-style: solid;
 }
 
 #button-container > button:hover {
     transform: scale(1.5);
     border: 30px yellow solid;
+    background-color: rgb(255, 105, 180);
     visibility: visible;
     opacity: 1; /* Set the opacity value here */
-}   
+}
+
+#score {
+    transition: font-size 0.5s ease-in-out;
+    font-size: 36px;
+    margin-top: 15px;
+    font-weight: bold;
+}

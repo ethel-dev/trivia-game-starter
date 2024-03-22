@@ -1,5 +1,7 @@
 window.controller = null;
 window.timeoutBuffer = [];
+window.scoreSize = 36;
+window.scoreSizeMult = 1;
 
 let questionText = document.getElementById("question-text");
 let questionCategory = document.getElementById("question-category");
@@ -152,15 +154,14 @@ async function displayNewQuestion() {
         await fetchNewQuestions();
     }
 
-    let questionNumber = 0;
-
     let randomQuestion = window.questions.pop();
     window.correctAnswer = randomQuestion["correct_answer"];
+    
     let questionAnswers = randomQuestion["incorrect_answers"];
     questionAnswers.push(window.correctAnswer);
-    questionAnswers = shuffle(questionAnswers)
+    questionAnswers = shuffle(questionAnswers);
 
-    // Below code is the basic alert/prompt interface
+    // Set question text and category elements in HTML
     questionText.innerHTML = randomQuestion["question"]
     questionCategory.innerHTML = randomQuestion["category"]
     
@@ -168,7 +169,7 @@ async function displayNewQuestion() {
     for(let i = 0; i < questionAnswers.length; i++) {
         let tempButton = document.createElement("button");
         tempButton.id = "button-" + i;
-        tempButton.innerHTML = questionAnswers[i];
+        tempButton.innerHTML = `<span class="answer-text">${questionAnswers[i]}</span>`;
         
         tempButton.addEventListener("click", (e) => {
             console.log(e.target.innerText);
@@ -176,6 +177,9 @@ async function displayNewQuestion() {
             if (e.target.innerText === window.correctAnswer) {
                 alert("Correct!")
                 window.score++;
+                document.getElementById("score").innerHTML = window.score;
+                window.scoreSizeMult += 0.3;
+                document.getElementById("score").style.fontSize = `${window.scoreSize * window.scoreSizeMult}px`;
             } else {
                 alert(`Incorrect! Correct answer was ${window.correctAnswer}`)
             }
